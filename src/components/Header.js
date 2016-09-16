@@ -2,8 +2,8 @@
 
 import React, { Component } from 'react';
 import { Nav, Navbar, NavItem, Header, Brand } from 'react-bootstrap';
-// import AuthActions from '../actions/AuthActions';
-// import AuthStore from '../stores/AuthStore';
+import AuthActions from '../actions/AuthActions';
+import AuthStore from '../stores/AuthStore';
 
 class HeaderComponent extends Component {
 
@@ -16,21 +16,19 @@ class HeaderComponent extends Component {
     this.logout = this.logout.bind(this);
   }
 
-  login() {
-    // We can call the show method from Auth0Lock,
-    // which is passed down as a prop, to allow
-    // the user to log in
+ login() {
     this.props.lock.show((err, profile, token) => {
       if (err) {
         alert(err);
         return;
       }
+      AuthActions.logUserIn(profile, token);
       this.setState({authenticated: true});
     });
   }
 
   logout() {
-    // AuthActions.logUserOut();
+    AuthActions.logUserOut();
     this.setState({authenticated: false});
   }
 
